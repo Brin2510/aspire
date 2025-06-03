@@ -6,10 +6,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, accuracy_score
 
-# Load your dataset
-df = pd.read_csv("student_data.csv")  # Replace with your actual dataset
-
-# Check for missing values
 df = df.dropna()
 
 # Features and target
