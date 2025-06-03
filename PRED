@@ -1,0 +1,38 @@
+PREDICTORR
+# student_dropout_predictor.py
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, accuracy_score
+
+# Load your dataset
+df = pd.read_csv("student_data.csv")  # Replace with your actual dataset
+
+# Check for missing values
+df = df.dropna()
+
+# Features and target
+X = df.drop('dropout', axis=1)  # Features (excluding the target)
+y = df['dropout']               # Target (1 = dropped out, 0 = continued)
+
+# Split into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Create and train the model
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+# Make predictions
+y_pred = model.predict(X_test)
+
+# Evaluation
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
+
+# Optional: Predict on new student data
+new_student = [[85, 3.0, 2, 30000, 2, 60]]  # Replace with real input
+prediction = model.predict(new_student)
+print("\nDropout Prediction:", "Yes" if prediction[0] == 1 else "No")
